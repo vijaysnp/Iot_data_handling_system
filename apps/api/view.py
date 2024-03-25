@@ -16,8 +16,13 @@ getdb = database_config.get_db
 class MqttdatahandlingService():
 
 
-    @mqttrouter.post("/publish/new/event")
+    @mqttrouter.post("/store/tempreture/data")
     async def store_temprature_data(self, body: Mqttdataschema,  db: Database = Depends(getdb)):
         response = MqttdataService().store_temprature_data_service(db, body)
+        return response
+
+    @mqttrouter.get("/fetch/current/tempreture")
+    async def fetch_current_tempreture(self, db: Database = Depends(getdb)):
+        response = MqttdataService().fetch_current_tempreture_service(db)
         return response
        

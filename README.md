@@ -8,7 +8,7 @@ Python, Fast-API
 ## Features
 - integration of Rabbitmq for iot data handing
 - integration of mongodb for data storage
-- sending iot data by mail service configation
+- sending iot data by mail service configuration
 
 ## Installation
 
@@ -47,3 +47,9 @@ pip install -r requirements.txt
 
 pip install gunicorn
 pip install "fastapi[all]"
+
+## RabbitMQ Start and Stop 
+net stop RabbitMQ && net start RabbitMQ
+
+## Enable plugin configuration
+rabbitmq-plugins enable rabbitmq_management

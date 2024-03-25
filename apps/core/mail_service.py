@@ -1,52 +1,35 @@
-import os
 import smtplib
-from jinja2 import Environment       
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 class Maildataservice():
 
-    def __init__(self):
-        self.server = ""
-        self.port = ""
-        self.user = ""
-        self.password = ""
-        self.sender = ""
-        
-    def send_mail(self,
-        subject: str,
-        render_args: dict,
-        html_file: str,
-        receiver_email: str):
-        """
-        This function is used to send email with respect
-        to render information & html file.
+    def send_email(sender_email, sender_password, recipient_email, subject, message):
+        # SMTP server configuration (Gmail SMTP server)
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587  # TLS port
 
-        Args:
-            render_args(dict): render arguments
-            subject(str): The email subject
-            html_file(str): Html file name
-            receiver_email(str): The email address of recipient
+        # Create a multipart message
+        email_message = MIMEMultipart()
+        email_message['From'] = sender_email
+        email_message['To'] = recipient_email
+        email_message['Subject'] = subject
 
-        Returns:
-            send a reset password email to user
-        """
-        message = MIMEMultipart("alternative")
-        message["Subject"] = subject
-        message["From"] = self.sender
-        message["To"] = receiver_email
+        # Attach the message to the email
+        email_message.attach(MIMEText(message, 'plain'))
 
-        current_directory = os.getcwd()
-        html = open(f'{os.getcwd()}/assets/templates/{html_file}').read()
-        
-        # Create a text/html message from a rendered subject
-        message.attach(MIMEText(Environment().from_string(html).render(**render_args),"html"))
-
-        # Send email
-        with smtplib.SMTP_SSL(self.server, self.port) as server:
-            server.login(self.user, self.passwordss)
-            server.sendmail(
-                mail_config.SENDER_EMAIL,
-                receiver_email,
-                message.as_string().encode("utf-8"))
+        try:
+            # Connect to the SMTP server
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()  # Start TLS encryption
+            # Login to the SMTP server
+            server.login(sender_email, sender_password)
+            # Send email
+            server.sendmail(sender_email, recipient_email, email_message.as_string())
+            print("Email sent successfully!")
+        except Exception as e:
+            print("Failed to send email:", e)
+        finally:
+            # Quit SMTP session
+            server.quit()
