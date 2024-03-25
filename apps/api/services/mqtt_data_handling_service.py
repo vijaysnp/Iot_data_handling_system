@@ -80,8 +80,7 @@ class MqttdataService():
                     sender_email = "noreply@example.com"
                     recipient_email = processed_data["recipient_email"]
 
-                    Maildataservice().send_email(sender_email, sender_password, recipient_email, subject, message)
-                        
+                    Maildataservice().send_email(sender_email, sender_password, recipient_email, subject, message)  
                     return StandardResponse(status=st.HTTP_200_OK, data=None, message= "mail sent Successfully").make
             else:
                 return StandardResponse(status=st.HTTP_404_NOT_FOUND, data=None, message= "payload not fount").make
