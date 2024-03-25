@@ -3,12 +3,13 @@
 
 ## 🛠 Skills
 
-Python, Fast-API
+Python, Fast-API, HTML
 
 ## Features
-- integration of Rabbitmq for iot data handing
+- integration of Rabbitmq for iot data handing with mqtt plugin
+- publish and sibscribe mqtt messaging service
 - integration of mongodb for data storage
-- sending iot data by mail service configuration
+- sending tempreture data by mail service configuration
 
 ## Installation
 
