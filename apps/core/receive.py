@@ -1,25 +1,8 @@
-try:
-    import pika
-    import ast
-
-except Exception as e:
-    print("Some modules are missings {}".format(e))
+import pika
+import ast
 
 
-class MetaClass(type):
-
-    _instance ={}
-
-    def __call__(cls, *args, **kwargs):
-
-        """ Singelton Design Pattern  """
-
-        if cls not in cls._instance:
-            cls._instance[cls] = super(MetaClass, cls).__call__(*args, **kwargs)
-            return cls._instance[cls]
-
-
-class RabbitMqServerConfigure(metaclass=MetaClass):
+class RabbitMqServerConfigure():
 
     def __init__(self, host='localhost', queue='hello'):
 

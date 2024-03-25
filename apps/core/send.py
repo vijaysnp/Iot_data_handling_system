@@ -2,20 +2,8 @@
 import pika
 # from apps.api.services.mqtt_data_handling_services import MqttdataService
 
-class MetaClass(type):
 
-    _instance ={}
-
-    def __call__(cls, *args, **kwargs):
-
-        """ Singelton Design Pattern  """
-
-        if cls not in cls._instance:
-            cls._instance[cls] = super(MetaClass, cls).__call__(*args, **kwargs)
-            return cls._instance[cls]
-
-
-class RabbitmqConfigure(metaclass=MetaClass):
+class RabbitmqConfigure():
 
     def __init__(self, queue='hello', host='localhost', routingKey='hello', exchange=''):
         """ Configure Rabbit Mq Server  """
@@ -56,16 +44,16 @@ class RabbitMq():
         self._connection.close()
 
 
-if __name__ == "__main__":
-    server = RabbitmqConfigure(queue='hello',
-                               host='localhost',
-                               routingKey='hello',
-                               exchange='')
+# if __name__ == "__main__":
+#     server = RabbitmqConfigure(queue='hello',
+#                                host='localhost',
+#                                routingKey='hello',
+#                                exchange='')
 
-    rabbitmq = RabbitMq(server)
-    di = {
-            "city": "pune",
-            "temperature": 38,
-            "email": "test@example.com"
-            }
-    rabbitmq.publish(di)
+#     rabbitmq = RabbitMq(server)
+#     di = {
+#             "city": "pune",
+#             "temperature": 38,
+#             "email": "test@example.com"
+#             }
+#     rabbitmq.publish(di)
