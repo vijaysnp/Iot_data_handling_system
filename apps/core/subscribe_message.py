@@ -17,7 +17,6 @@ class rabbitmqServer():
     def __init__(self, server):
 
         """
-
         :param server: Object of class RabbitMqServerConfigure
         """
 
@@ -25,17 +24,15 @@ class rabbitmqServer():
         self._connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.server.host))
         self._channel = self._connection.channel()
         self._tem = self._channel.queue_declare(queue=self.server.queue)
-        print("Server started waiting for Messages ")
+        self.payload = None
 
     @staticmethod
     def callback(ch,method, properties, body):
 
-        Payload = body.decode("utf-8")
-        Payload = ast.literal_eval(Payload)
-        print(type(Payload))
-        print("Data Received : {}".format(Payload))
-
-
+        self.Payload = body.decode("utf-8")
+        processed_data = ast.literal_eval(self.Payload)
+        # print(Payload)
+        # return "Data Received : {}".format(Payload)
 
     def startserver(self):
         self._channel.basic_consume(
@@ -45,9 +42,9 @@ class rabbitmqServer():
         self._channel.start_consuming()
 
 
-if __name__ == "__main__":
-    serverconfigure = RabbitMqServerConfigure(host='localhost',
-                                              queue='hello')
+# if __name__ == "__main__":
+#     serverconfigure = RabbitMqServerConfigure(host='localhost',
+#                                               queue='hello')
 
-    server = rabbitmqServer(server=serverconfigure)
-    server.startserver()
+#     server = rabbitmqServer(server=serverconfigure)
+#     server.startserver()
